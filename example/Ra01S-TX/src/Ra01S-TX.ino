@@ -1,17 +1,19 @@
 
+// pio run -t upload && pio device monitor -b 115200
+
 #include <Ra01S.h>
 
 //#define RF_FREQUENCY                                433000000 // Hz  center frequency
 //#define RF_FREQUENCY                                866000000 // Hz  center frequency
-#define RF_FREQUENCY                                915000000 // Hz  center frequency
-#define TX_OUTPUT_POWER                             17        // dBm tx output power
-#define LORA_BANDWIDTH                              4         // bandwidth
+#define RF_FREQUENCY                              836000000 // Hz  center frequency
+#define TX_OUTPUT_POWER                             22        // dBm tx output power
+#define LORA_BANDWIDTH                              6         // bandwidth
                                                               // 2: 31.25Khz
                                                               // 3: 62.5Khz
                                                               // 4: 125Khz
                                                               // 5: 250KHZ
                                                               // 6: 500Khz                                                               
-#define LORA_SPREADING_FACTOR                       7         // spreading factor [SF5..SF12]
+#define LORA_SPREADING_FACTOR                       12         // spreading factor [SF5..SF12]
 #define LORA_CODINGRATE                             1         // [1: 4/5,
                                                               //  2: 4/6,
                                                               //  3: 4/7,
@@ -91,7 +93,7 @@ void setup()
   delay(1000);
   Serial.begin(115200);
 
-  // lora.DebugPrint(true);
+  lora.DebugPrint(true);
 
 #ifdef USE_EBYTE
   Serial.println("Enable TCXO");
@@ -125,13 +127,13 @@ void loop()
 
   // Wait for transmission to complete
   if (lora.Send(txData, len, SX126x_TXMODE_SYNC)) {
-    //Serial.println("Send success");
+    Serial.println("Send success");
   } else {
     Serial.println("Send fail");
   }
 
   // Do not wait for the transmission to be completed
-  //lora.Send(txData, len, SX126x_TXMODE_ASYNC );
+  // lora.Send(txData, len, SX126x_TXMODE_ASYNC );
 
-  delay(5000);
+  delay(10000);
 }
